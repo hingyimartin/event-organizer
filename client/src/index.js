@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import './index.css';
 import App from './App';
@@ -11,14 +12,16 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ToastProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<App />}>
-            <Route index element={<Homepage />} />
-          </Route>
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<App />}>
+              <Route index element={<Homepage />} />
+            </Route>
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </ToastProvider>
   </React.StrictMode>
 );
