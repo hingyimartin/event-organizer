@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
 import UserModel from '../models/UserModel.js';
 
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from '../utils/TokenHelper.js';
+
 export const signUp = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
@@ -80,9 +85,21 @@ export const login = async (req, res) => {
         .json({ message: 'Username/email or password incorrect' });
     }
 
+    // generate access token
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
     const { password: _, ...userWithoutPassword } = user.toObject();
 
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
     res.status(200).json({
+      accessToken,
       user: userWithoutPassword,
     });
   } catch (error) {
