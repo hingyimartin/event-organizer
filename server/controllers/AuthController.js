@@ -46,7 +46,54 @@ export const signUp = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  await res.status(200).json({ message: 'Login endpoint hit' });
+  try {
+    const { identification, password } = req.body;
+    console.log(identification, password);
+
+    if (!identification || !password) {
+      return res
+        .status(400)
+        .json({ message: 'Username/email and password required' });
+    }
+
+    let user;
+
+    if (identification.includes('@')) {
+      // email alapján keresés
+      user = await UserModel.findOne({ email: identification });
+    } else {
+      // username alapján keresés
+      user = await UserModel.findOne({ username: identification });
+    }
+
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: 'Username/email or password incorrect' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ message: 'Username/email or password incorrect' });
+    }
+
+    const { password: _, ...userWithoutPassword } = user.toObject();
+
+    res.status(200).json({
+      user: userWithoutPassword,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `${
+        process.env.NODE_ENV === 'development'
+          ? error
+          : 'An unexpected error happened'
+      }`,
+    });
+  }
 };
 
 export const logout = async (req, res) => {
