@@ -4,6 +4,7 @@ import UserModel from '../models/UserModel.js';
 import {
   generateAccessToken,
   generateRefreshToken,
+  verifyRefreshToken,
 } from '../utils/TokenHelper.js';
 
 export const signUp = async (req, res) => {
@@ -53,7 +54,6 @@ export const signUp = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { identification, password } = req.body;
-    console.log(identification, password);
 
     if (!identification || !password) {
       return res
@@ -114,13 +114,37 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  await res.status(200).json({ message: 'Logout endpoint hit' });
+  res.clearCookie('refreshToken');
+  res.status(200).json({ message: 'Logged out' });
 };
 
 export const getMe = async (req, res) => {
-  await res.status(200).json({ message: 'Get me endpoint hit' });
+  const user = await UserModel.findById(req.user.userId).select('-password');
+  if (!user) {
+    return res.status(404).json({
+      message: 'User not found',
+    });
+  }
+  res.status(200).json(user);
 };
 
 export const refreshAccessToken = async (req, res) => {
-  await res.status(200).json({ message: 'Refresh access token endpoint hit' });
+  try {
+    const token = req.cookies.refreshToken;
+
+    if (!token) {
+      return res.status(401).json({ message: 'Refresh token is missing' });
+    }
+    const decoded = verifyRefreshToken(token);
+    const user = await UserModel.findById(decoded.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const accessToken = generateAccessToken(user);
+    res.json({ accessToken });
+  } catch (error) {
+    res.status(403).json({
+      message: 'Invalid refresh token',
+    });
+  }
 };
