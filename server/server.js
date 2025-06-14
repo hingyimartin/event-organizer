@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+import auth from './routes/AuthRoutes.js';
+
 dotenv.config();
 
 const server = express();
@@ -16,6 +18,9 @@ server.use(
 );
 server.use(express.json());
 server.use(cookieParser());
+
+// Routes
+server.use('/auth', auth);
 
 // Server
 server.listen(process.env.SERVER_PORT, () => {
