@@ -1,5 +1,15 @@
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
+
 const App = () => {
-  return <div>hm | Event Organizer</div>;
+  return (
+    <div>
+      <Navbar />
+      <div>
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
 export default App;
