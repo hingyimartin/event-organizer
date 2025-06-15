@@ -1,4 +1,9 @@
+// system imports
 import { createContext, useContext, useState } from 'react';
+
+// images, icons, svgs, media imports
+
+// component imports
 import ToastContainer from '../components/toasts/ToastContainer';
 
 const ToastContext = createContext();

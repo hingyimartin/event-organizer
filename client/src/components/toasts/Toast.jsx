@@ -1,5 +1,10 @@
+// system imports
 import { useEffect, useState } from 'react';
+
+// images, icons, svgs, media imports
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
+
+// components imports
 
 const Toast = ({ id, message, type, duration = 3000, onClose }) => {
   const [visible, setVisible] = useState(false);
@@ -26,7 +31,7 @@ const Toast = ({ id, message, type, duration = 3000, onClose }) => {
     setTimeout(() => onClose(id), 500);
   };
 
-  // Icon selection
+  // icon selection
   const getIcon = () => {
     switch (type) {
       case 'success':
@@ -42,7 +47,7 @@ const Toast = ({ id, message, type, duration = 3000, onClose }) => {
     }
   };
 
-  // Background and text colors
+  // background and text colors
   const getBackgroundAndTextColor = () => {
     switch (type) {
       case 'success':
@@ -58,7 +63,7 @@ const Toast = ({ id, message, type, duration = 3000, onClose }) => {
     }
   };
 
-  // Progress bar color
+  // progress bar color
   const getProgressBarBackground = () => {
     switch (type) {
       case 'success':
@@ -85,15 +90,15 @@ const Toast = ({ id, message, type, duration = 3000, onClose }) => {
             : 'opacity-0 translate-y-2 scale-95'
         }`}
     >
-      {/* Icon */}
+      {/* icon */}
       <div className='flex-shrink-0'>{getIcon()}</div>
 
-      {/* Message */}
+      {/* message */}
       <div className='flex-1 font-medium text-sm leading-relaxed'>
         {message}
       </div>
 
-      {/* Close Button */}
+      {/* close button */}
       <button
         onClick={handleClose}
         className='flex-shrink-0 p-1 rounded-md transition-colors duration-200
@@ -103,7 +108,7 @@ const Toast = ({ id, message, type, duration = 3000, onClose }) => {
         <X className='w-4 h-4' />
       </button>
 
-      {/* Progress Bar */}
+      {/* progress bar */}
       <div className='absolute bottom-0 left-0 w-full h-1 bg-black/10 rounded-b-lg overflow-hidden'>
         <div
           className={`h-full ${getProgressBarBackground()} rounded-b-lg origin-left`}

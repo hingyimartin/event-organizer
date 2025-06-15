@@ -1,4 +1,9 @@
+// system imports
 import { createContext, useContext, useState, useEffect } from 'react';
+
+// images, icons, svgs, media imports
+
+// component imports
 
 const AuthContext = createContext();
 
@@ -11,9 +16,8 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      // Friss token kérés
       const tokenResponse = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/auth/refresh`,
+        `${process.env.REACT_APP_API_URL}/auth/refresh`,
         {
           method: 'POST',
           credentials: 'include',
@@ -29,9 +33,8 @@ export const AuthProvider = ({ children }) => {
       const tokenData = await tokenResponse.json();
       setAccessToken(tokenData.accessToken);
 
-      // User lekérés új access tokennel
       const userResponse = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/auth/me`,
+        `${process.env.REACT_APP_API_URL}/auth/me`,
         {
           method: 'GET',
           credentials: 'include',
@@ -82,21 +85,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/auth/logout`,
-      {
-        method: 'POST',
-        credentials: 'include',
-      }
-    );
-    const data = await response.json();
-
+    await fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
     setUser(null);
     setAccessToken(null);
-
-    if (response.ok) {
-      return data.message;
-    }
   };
 
   return (
