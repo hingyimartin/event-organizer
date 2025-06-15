@@ -12,18 +12,12 @@ const eventSchema = new Schema(
       type: String,
       required: true,
     },
-    locationId: {
-      type: Types.ObjectId,
-      required: true,
-      ref: 'Location',
-    },
-    startDate: {
+    start: {
       type: Date,
       required: true,
     },
-    endDate: {
-      type: Date,
-      required: true,
+    end: {
+      type: Time,
     },
     organizerId: {
       type: Types.ObjectId,
@@ -37,6 +31,28 @@ const eventSchema = new Schema(
     status: {
       type: String,
       required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    zipcode: {
+      type: Number,
+      required: true,
+    },
+    latitude: {
+      type: Number,
+    },
+    longitude: {
+      type: Number,
     },
   },
   {

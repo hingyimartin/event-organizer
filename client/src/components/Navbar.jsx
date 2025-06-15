@@ -5,7 +5,16 @@ import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 
 // images, icons, svgs, media imports
-import { User, LogOut, Calendar, Home, Menu, X } from 'lucide-react';
+import {
+  User,
+  LogOut,
+  Calendar,
+  Home,
+  Menu,
+  X,
+  CalendarHeart,
+  CalendarCog,
+} from 'lucide-react';
 
 // component imports
 import LoginModal from './LoginModal';
@@ -60,7 +69,7 @@ const Navbar = () => {
             <div className='hidden md:flex items-center space-x-2'>
               {/* links for anyone */}
               <Link
-                className='flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-all duration-300 relative group px-4 py-2 rounded-lg hover:bg-gradient-to-r '
+                className='flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-all duration-300 relative group px-4 py-2 rounded-lg hover:bg-gradient-to-r'
                 to='/'
               >
                 <Home size={18} />
@@ -69,7 +78,7 @@ const Navbar = () => {
               </Link>
 
               <Link
-                className='flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-all duration-300 relative group px-4 py-2 rounded-lg hover:bg-gradient-to-r '
+                className='flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-all duration-300 relative group px-4 py-2 rounded-lg hover:bg-gradient-to-r'
                 to='/events'
               >
                 <Calendar size={18} />
@@ -78,8 +87,32 @@ const Navbar = () => {
               </Link>
 
               {/* links for users */}
+              {user && user.role === 'user' && (
+                <>
+                  <Link
+                    className='flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-all duration-300 relative group px-4 py-2 rounded-lg hover:bg-gradient-to-r '
+                    to='/my-events'
+                  >
+                    <CalendarHeart size={18} />
+                    <span>My Events</span>
+                    <div className='absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-[95%] transition-all duration-300 rounded-full'></div>
+                  </Link>
+                </>
+              )}
 
               {/* links for organizers */}
+              {user && user.role === 'organizer' && (
+                <>
+                  <Link
+                    className='flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-all duration-300 relative group px-4 py-2 rounded-lg hover:bg-gradient-to-r '
+                    to='/event-manager'
+                  >
+                    <CalendarCog size={18} />
+                    <span>Event manager</span>
+                    <div className='absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-[95%] transition-all duration-300 rounded-full'></div>
+                  </Link>
+                </>
+              )}
 
               {/* links for admins */}
             </div>

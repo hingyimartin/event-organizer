@@ -18,5 +18,5 @@ body {
 }
 
 .navbar-link {
-  @apply hover:decoration-emerald-400 hover:decoration-2 hover:underline hover:underline-offset-[27px];
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-[95%] transition-all duration-300 rounded-full;
 }
