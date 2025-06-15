@@ -53,8 +53,7 @@ const Navbar = () => {
               <div className='w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center'>
                 <Calendar className='w-5 h-5 text-white' />
               </div>
-              <span className='hidden sm:inline'>Event Organizer</span>
-              <span className='sm:hidden'>EO</span>
+              <span>Event Organizer</span>
             </Link>
 
             {/* center links */}
